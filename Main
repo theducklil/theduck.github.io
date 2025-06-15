@@ -1,0 +1,38 @@
+# main.py
+
+import pygame
+import sys
+from config import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
+from game import Car
+
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption("Polytrack")
+    clock = pygame.time.Clock()
+
+    track = pygame.image.load("assets/track.png")
+    track = pygame.transform.scale(track, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+    car = Car("assets/car.png", SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+
+    running = True
+    while running:
+        screen.blit(track, (0, 0))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        keys = pygame.key.get_pressed()
+        car.update(keys)
+        car.draw(screen)
+
+        pygame.display.flip()
+        clock.tick(FPS)
+
+    pygame.quit()
+    sys.exit()
+
+if __name__ == "__main__":
+    main()
